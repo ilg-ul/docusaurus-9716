@@ -4,6 +4,9 @@ import {translate} from '@docusaurus/Translate';
 import {PageMetadata} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import logger from '@docusaurus/logger'
+import { eventDateComparator } from '../../utils/eventDateComparator'
+
 function Year({year, posts}) {
   return (
     <>
@@ -40,9 +43,20 @@ function YearsSection({years}) {
     </section>
   );
 }
+
 function listPostsByYears(blogPosts) {
-  const postsByYear = blogPosts.reduce((posts, post) => {
-    const year = post.metadata.date.split('-')[0];
+  const blogPostsReordered = blogPosts.sort(eventDateComparator)
+
+  // logger.info(blogPostsReordered)
+  const postsByYear = blogPostsReordered.reduce((posts, post) => {
+    // logger.info(post)
+    let year
+    if (post.metadata?.frontMatter.eventDateISO) {
+      // logger.info(post.metadata.frontMatter.eventDateISO)
+      year = post.metadata.frontMatter.eventDateISO.split('-')[0];
+    } else {
+      year = post.metadata.date.split('-')[0];
+    }
     const yearPosts = posts.get(year) ?? [];
     return posts.set(year, [post, ...yearPosts]);
   }, new Map());
