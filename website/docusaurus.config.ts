@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger'
 import { parseFrontMatterEventDates } from './src/utils/frontMatterEventDates'
@@ -34,29 +34,38 @@ const config: Config = {
   markdown: {
     parseFrontMatter: parseFrontMatterEventDates
   },
-  presets: [
+
+  plugins: [
     [
-      'classic',
-      {
-        docs: {
-          sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
+      '@ilg/docusaurus-plugin-content-chronology', {
+        showReadingTime: true,
+        // Please change this to your repo.
+        // Remove this to remove the "edit this page" links.
+        editUrl:
+          'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+      }
     ],
+    [
+      '@docusaurus/plugin-content-pages', {
+      }
+    ],
+    [
+      '@docusaurus/plugin-content-docs', {
+        sidebarPath: './sidebars.ts',
+        // Please change this to your repo.
+        // Remove this to remove the "edit this page" links.
+        editUrl:
+          'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+
+      }
+    ],
+  ],
+  themes: [
+    [
+      '@docusaurus/theme-classic', {
+        customCss: './src/css/custom.css',
+      }
+    ]
   ],
 
   themeConfig: {
@@ -75,9 +84,9 @@ const config: Config = {
           position: 'left',
           label: 'Tutorial',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
-        {to: '/blog/archive', label: 'Archive', position: 'left'},
-        {to: '/blog/tags', label: 'Tags', position: 'left'},
+        { to: '/blog', label: 'Blog', position: 'left' },
+        { to: '/blog/archive', label: 'Archive', position: 'left' },
+        { to: '/blog/tags', label: 'Tags', position: 'left' },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
